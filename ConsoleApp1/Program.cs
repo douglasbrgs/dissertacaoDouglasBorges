@@ -14,29 +14,26 @@ namespace Program
 
         static void Main(string[] args)
         {
-            string arqEntrada = @"C:\Users\Douglas\Desktop\AMA2_30_LOW\BWR\resultado.txt";
-            string arqSaida = @"C:\Users\Douglas\Desktop\AMA2_30_LOW\BWR\resultado[convert].txt";
-
-            SaidaParaBinario(arqEntrada, arqSaida, true);
-
+            string arqEntrada = String.Empty;
+            string arqSaida = String.Empty;
         }
-
+        /// <summary>
+        /// Compara arquivos linha a linha e gera um arquivo com os índices das linhas que diferem
+        /// </summary>
+        /// <param name="filePath1"></param>
+        /// <param name="filePath2"></param>
         public static void CompareFiles(string filePath1, string filePath2)
-        {   //lista das linhas diferentes
+        {
             List<int> differentLines = new List<int>();
-            //linhas do arquivo
             string lineFile1 = string.Empty;
             string lineFile2 = string.Empty;
-            //abrindo arquivo 1
             using (StreamReader readerFile1 = File.OpenText(filePath1))
-            {//abrindo arquivo 2
+            {
                 using (StreamReader readerFiel2 = File.OpenText(filePath2))
                 {
                     int lineNumber = 1;
-                    //enquanto nao é fim de arquivo
                     while (!readerFile1.EndOfStream || !readerFiel2.EndOfStream)
                     {
-                        //ler uma linha
                         if (!readerFile1.EndOfStream)
                         {
                             lineFile1 = readerFile1.ReadLine();
@@ -47,21 +44,18 @@ namespace Program
                             lineFile2 = readerFiel2.ReadLine();
                         }
 
-                        //se linhas diferentes escreve o numero da linha
                         if (lineFile1 != lineFile2)
                         {
                             differentLines.Add(lineNumber);
                         }
 
-                        //limpa linhas
                         lineFile1 = string.Empty;
                         lineFile2 = string.Empty;
                         lineNumber++;
                     }
                 }
             }
-            //escreve quais sao as linhas diferentes 
-            using (StreamWriter writer = new StreamWriter("C:\\Users\\Douglas\\Desktop\\dif.txt", true))
+            using (StreamWriter writer = new StreamWriter("C:\\dif.txt", true))
             {
                 foreach (int item in differentLines)
                 {
@@ -70,7 +64,7 @@ namespace Program
             }
         }
 
-        /// <summary></summary>
+        /// <summary>Lê um arquivo com números decimais e converte cada linha em uma string de 0's e 1's</summary>
         /// <param name="filePath1">Caminho arquivo de entrada</param>
         /// <param name="outFilePath">Caminho do arquivo de saída</param>
         public static void SaidaParaBinario(String filePath1, String outFilePath, Boolean bComSinal = false)
@@ -84,41 +78,28 @@ namespace Program
 
                     try
                     {
-                        //abre arquivo
                         using (StreamReader readerFile1 = File.OpenText(filePath1))
                         {
-                            //ler linhas
                             while (!readerFile1.EndOfStream)
                             {
-                                //linha do arquivo
-                                lineFile1 = readerFile1.ReadLine();
-
-                                //apaga espaços
-                                lineFile1 = lineFile1.Trim();
-
+                                lineFile1 = readerFile1.ReadLine().Trim();
                                 //troca ponto por virgula
                                 String linha = lineFile1.Replace('.', ',');
-
-                                //separa a linha em partes
                                 String[] vetorSaidas = linha.Split(' ');
 
                                 try
                                 {
-                                    //escrever o arquivo com os valores convertidos em bin
                                     using (StreamWriter writer = new StreamWriter(outFilePath, true))
                                     {
-                                        //armazenara a string final
                                         StringBuilder saidaEmBinario = new StringBuilder();
 
-                                        //cada bit de uma saida
                                         foreach (String saida in vetorSaidas)
                                         {
-                                            //se nao for branco, converte
                                             if (!String.IsNullOrWhiteSpace(saida))
                                             {
                                                 Decimal valor = Convert.ToDecimal(saida);
 
-                                                //se maior que 0.4 ou 0.23 = 1
+                                                //0.7 ou 0.23
                                                 if (valor >= 0.23M)
                                                 {
                                                     saidaEmBinario.Append("1");
@@ -130,7 +111,6 @@ namespace Program
                                             }
                                         }
 
-                                        //nao é nulo nem espaço em branco
                                         if (!String.IsNullOrWhiteSpace(saidaEmBinario.ToString()))
                                         {
                                             if (!bComSinal)
@@ -145,7 +125,6 @@ namespace Program
                                         }
                                         else
                                         {
-                                            //se for nulo ou branco
                                             writer.WriteLine(String.Empty.PadLeft(30, '-'));
                                         }
                                     }
@@ -156,7 +135,6 @@ namespace Program
                                     Console.Write("Erro na escrita:" + ex);
                                 }
 
-                                //limpa linha
                                 lineFile1 = String.Empty;
                             }
 
@@ -164,7 +142,6 @@ namespace Program
                     }
                     catch (Exception ex)
                     {
-
                         Console.Write("Erro na leitura:" + ex);
                     }
                 }
@@ -180,23 +157,21 @@ namespace Program
             }
         }
 
-        /// <summary>Converte binário COM SINAL para decimal </summary>
+        /// <summary>Converte binário COM SINAL para decimal</summary>
         /// <param name="sBinario"></param>
         /// <param name="comSinal"></param>
+        /// <returns>Número inteiro</returns>
         private static Int32 ConverteBinarioSinal(String sBinario)
         {
             Int32 dec = 0;
 
-            //converter para decimal com sinal
             for (int i = 0; i < sBinario.Length; i++)
             {
-                // we start with the least significant digit, and work our way to the left
                 if (sBinario[sBinario.Length - i - 1] == '0')
                 {
                     continue;
                 }
 
-                //quando i representa a posição mais significativa, soma o valor negativo
                 if (i == sBinario.Length - 1)
                 {
                     dec -= (Int32)Math.Pow(2, i);
@@ -209,7 +184,7 @@ namespace Program
             return dec;
         }
 
-        /// <summary></summary>
+        /// <summary> Lê um arquivo com binários e gera um arquivo com as conversões para decimal</summary>
         /// <param name="filePath1">Caminho arquivo de entrada</param>
         /// <param name="outFilePath">Caminho do arquivo de saída</param>
         public static void ConversorDecimal(String filePath1, String outFilePath, Boolean bComSinal = false)
@@ -223,23 +198,17 @@ namespace Program
 
                     try
                     {
-                        //abre arquivo
                         using (StreamReader readerFile1 = File.OpenText(filePath1))
                         {
-                            //ler linhas
                             while (!readerFile1.EndOfStream)
                             {
-                                //linha do arquivo
                                 lineFile1 = readerFile1.ReadLine();
-
-                                //elimina espaços
                                 String linha = lineFile1.Trim();
 
                                 try
                                 {
                                     using (StreamWriter writer = new StreamWriter(outFilePath, true))
                                     {
-                                        //nao é nulo nem espaço em branco
                                         if (!String.IsNullOrWhiteSpace(linha.ToString()))
                                         {
                                             if (!bComSinal)
@@ -264,7 +233,6 @@ namespace Program
                                     Console.Write("Erro na escrita:" + ex);
                                 }
 
-                                //limpa linha
                                 lineFile1 = String.Empty;
                             }
 
