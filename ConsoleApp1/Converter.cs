@@ -39,7 +39,7 @@ namespace BinaryTools
                             currentLine = fileLine.Replace('.', ',');
                             sourcesVector = currentLine.Split(' ');
 
-                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "output.txt"), false))
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "output.txt"), true))
                             {
                                 binaryLineOutput = new StringBuilder();
 
@@ -116,7 +116,7 @@ namespace BinaryTools
                         {
                             fileLine = readerFile.ReadLine().Trim();
 
-                            using (StreamWriter writer = new StreamWriter(outFilePath, true))
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "output.txt"), true))
                             {
                                 if (!string.IsNullOrWhiteSpace(fileLine.ToString()))
                                 {
@@ -126,7 +126,7 @@ namespace BinaryTools
                                     }
                                     else
                                     {
-                                        decimalOutput = ConverteBinarioSinal(fileLine.ToString());
+                                        decimalOutput = ConvertSignedBinary(fileLine.ToString());
                                     }
                                     writer.WriteLine(decimalOutput);
                                 }
@@ -152,7 +152,7 @@ namespace BinaryTools
         /// <summary> Converts binary to signed decimal.</summary>
         /// <param name="sBinario"></param>
         /// <returns></returns>
-        private static Int32 ConverteBinarioSinal(string sBinario)
+        private static Int32 ConvertSignedBinary(string sBinario)
         {
             Int32 dec = 0;
 
