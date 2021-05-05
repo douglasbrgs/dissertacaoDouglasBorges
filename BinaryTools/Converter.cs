@@ -41,7 +41,7 @@ namespace BinaryTools
                             currentLine = fileLine.Replace('.', ',');
                             sourcesVector = currentLine.Split(' ');
 
-                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "output.txt"), true))
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "binaryout.txt"), true))
                             {
                                 binaryLineOutput = new StringBuilder();
 
@@ -118,7 +118,7 @@ namespace BinaryTools
                         {
                             fileLine = readerFile.ReadLine().Trim();
 
-                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "output.txt"), true))
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "decimalout.txt"), true))
                             {
                                 if (!string.IsNullOrWhiteSpace(fileLine.ToString()))
                                 {
