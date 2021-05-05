@@ -35,14 +35,14 @@ namespace BinaryTools
                         string[] sourcesVector;
                         StringBuilder binaryLineOutput;
 
-                        while (!readerFile.EndOfStream)
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "binaryout.txt"), false))
                         {
-                            fileLine = readerFile.ReadLine().Trim();
-                            currentLine = fileLine.Replace('.', ',');
-                            sourcesVector = currentLine.Split(' ');
-
-                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "binaryout.txt"), true))
+                            while (!readerFile.EndOfStream)
                             {
+                                fileLine = readerFile.ReadLine().Trim();
+                                currentLine = fileLine.Replace('.', ',');
+                                sourcesVector = currentLine.Split(' ');
+
                                 binaryLineOutput = new StringBuilder();
 
                                 foreach (string sourceValue in sourcesVector)
@@ -114,12 +114,12 @@ namespace BinaryTools
                         long decimalOutput;
                         string fileLine = String.Empty;
 
-                        while (!readerFile.EndOfStream)
+                        using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "decimalout.txt"), false))
                         {
-                            fileLine = readerFile.ReadLine().Trim();
-
-                            using (StreamWriter writer = new StreamWriter(Path.Combine(outFilePath, "decimalout.txt"), true))
+                            while (!readerFile.EndOfStream)
                             {
+                                fileLine = readerFile.ReadLine().Trim();
+
                                 if (!string.IsNullOrWhiteSpace(fileLine.ToString()))
                                 {
                                     if (!signedBinary)
