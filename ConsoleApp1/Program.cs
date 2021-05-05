@@ -14,7 +14,7 @@ namespace BinaryTools
             while (!endApp)
             {
                 Console.WriteLine("Escolha uma opção da seguinte lista: ");
-                Console.WriteLine("\t1 - Converter fontes de saída para binário");
+                Console.WriteLine("\t1 - Converter voltagens para binário");
                 Console.WriteLine("\t2 - Converter binários para decimal");
                 Console.WriteLine("\t3 - Encerrar aplicação\n");
 
@@ -28,9 +28,11 @@ namespace BinaryTools
                 switch (option)
                 {
                     case 1:
+                        Console.WriteLine("CONVERSÃO DE VOLTAGENS PARA BINÁRIO\n");
                         Converter.SourceToBinary();
                         break;
                     case 2:
+                        Console.WriteLine("CONVERSÃO DE BINÁRIOS PARA DECIMAL\n");
                         Converter.BinaryToDecimal();
                         break;
                     case 3:

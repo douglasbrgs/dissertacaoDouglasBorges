@@ -16,12 +16,14 @@ namespace BinaryTools
                 Console.Write("Digite o caminho do arquivo de entrada: ");
                 string sourcePath = Console.ReadLine();
 
-                Console.Write("Digite o valor mínimo de voltagem para high: ");
+                Console.Write("Digite a voltagem mínima para sinal alto (1 lógico): ");
                 Decimal minValueForHigh;
                 while (!Decimal.TryParse(Console.ReadLine().Replace(".", ","), out minValueForHigh))
                 {
-                    Console.Write("Valor inválido.");
+                    Console.WriteLine("Valor inválido.");
+                    Console.Write("Digite a voltagem mínima para sinal alto (1 lógico): ");
                 }
+
                 Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 
                 if (File.Exists(sourcePath))
@@ -98,7 +100,7 @@ namespace BinaryTools
                 string option = string.Empty;
                 do
                 {
-                    Console.WriteLine("Utilizar binários em complemento de 2?");
+                    Console.Write("Utilizar binários em complemento de 2? (s/n): ");
                     option = Console.ReadLine();
 
                 } while (!option.Equals("s") && !option.Equals("n"));
@@ -137,10 +139,11 @@ namespace BinaryTools
                             }
                         }
                     }
+                    Console.WriteLine("Arquivo gerado com sucesso.");
                 }
                 else
                 {
-                    Console.WriteLine(" O arquivo " + filePath + "não foi localizado.");
+                    Console.WriteLine(" O arquivo " + filePath + " não foi localizado.");
                 }
             }
             catch (Exception ex)
