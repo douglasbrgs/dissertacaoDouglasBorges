@@ -92,18 +92,17 @@ namespace BinaryTools
             try
             {
                 string outFilePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                Boolean signedBinary = false;
 
                 Console.Write("Digite o caminho do arquivo de entrada: ");
                 string filePath = Console.ReadLine();
 
-                string option = string.Empty;
+                string twoComplement = string.Empty;
                 do
                 {
                     Console.Write("Utilizar binários em complemento de 2? (s/n): ");
-                    option = Console.ReadLine();
+                    twoComplement = Console.ReadLine();
 
-                } while (!option.Equals("s") && !option.Equals("n"));
+                } while (!twoComplement.Equals("s") && !twoComplement.Equals("n"));
 
                 Console.WriteLine("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 
@@ -122,13 +121,13 @@ namespace BinaryTools
 
                                 if (!string.IsNullOrWhiteSpace(fileLine.ToString()))
                                 {
-                                    if (!signedBinary)
+                                    if (twoComplement.Equals("s"))
                                     {
-                                        decimalOutput = Convert.ToInt64(fileLine.ToString(), 2);
+                                        decimalOutput = ConvertSignedBinary(fileLine.ToString());
                                     }
                                     else
                                     {
-                                        decimalOutput = ConvertSignedBinary(fileLine.ToString());
+                                        decimalOutput = Convert.ToInt64(fileLine.ToString(), 2);
                                     }
                                     writer.WriteLine(decimalOutput);
                                 }
